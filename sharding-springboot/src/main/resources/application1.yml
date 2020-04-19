@@ -1,0 +1,51 @@
+server:
+  port: 9090
+
+spring:
+  application:
+    name: sharding-springboot
+  main:
+    allow-bean-definition-overriding: true
+  #sharding-jdbc分片规则配置
+  #数据源
+  shardingsphere:
+    datasource:
+      names: m1
+      m1:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driverClassName: com.mysql.jdbc.Driver
+        url: jdbc:mysql://192.168.163.130:3306/order_db?useUnicode=true
+        username: root
+        password: 123456
+    sharding:
+      tables:
+        t_order:
+          # 指定t_order表的数据分布情况，配置数据节点 m1.t_order_1,m1.t_order_2
+          actualDataNodes: m1.t_order_$->{1..2}
+          # 指定t_order表的分片策略，分片策略包括分片键和分片算法
+          tableStrategy:
+            inline:
+              shardingColumn: order_id
+              algorithmExpression: t_order_$->{order_id % 2 + 1}
+          # 指定t_order表的主键生成策略为SNOWFLAKE
+          keyGenerator:
+            type: SNOWFLAKE
+            column: order_id
+    # 打开sql输出日志
+    props:
+      sql:
+        show: true
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+
+swagger:
+  enable: true
+
+logging:
+  level:
+    root: info
+    org.springframework.web: info
+    com.haiyu.sharding: debug
+    druid.sql: debug
