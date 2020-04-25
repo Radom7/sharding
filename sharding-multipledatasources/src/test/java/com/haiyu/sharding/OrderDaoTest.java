@@ -62,7 +62,7 @@ public class OrderDaoTest {
 
     @Test
     public void testInsertUser(){
-        for (int i = 0; i<10; i++){
+        for (int i = 11; i<15; i++){
             Long id = i + 1L;
             userDao.insertUser(id,"姓名"+ id );
         }
@@ -71,8 +71,8 @@ public class OrderDaoTest {
     @Test
     public void testSelectUserbyIds(){
         List<Long> userIds = new ArrayList<>();
-        userIds.add(1L);
-        userIds.add(2L);
+        userIds.add(11L);
+        userIds.add(12L);
         List<Map> users = userDao.selectUserbyIds(userIds);
         System.out.println(users);
     }
@@ -80,8 +80,8 @@ public class OrderDaoTest {
     @Test
     public void testSelectUserInfobyIds(){
         List<Long> userIds = new ArrayList<>();
-        userIds.add(3L);
-        userIds.add(4L);
+        userIds.add(11L);
+//        userIds.add(4L);
         List<Map> users = userDao.selectUserInfobyIds(userIds);
         System.out.println(users);
     }
